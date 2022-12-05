@@ -24,7 +24,7 @@ module StallMux( ALUSrc_in, Shift_in, RegDst_in, ALUOp_in, MemRead_in, MemWrite_
               ALUSrc_out, Shift_out, RegDst_out, ALUOp_out, MemRead_out, MemWrite_out,StoreMux_out, RegWrite_out, MemToReg_out, LoadMux_out,
               stall, small_big_32_MUX_in, readSAD_in, small_big_16_MUX_in, small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, 
               read_min_in, write_min_in, small_big_32_MUX_out, readSAD_out, small_big_16_MUX_out, small_big_regFile_out, SAD_RegFile_write_out, 
-              small_big_find_out, read_min_out, write_min_out);
+              small_big_find_out, read_min_out, write_min_out, allow_find_in, allow_find_out);
               
 input ALUSrc_in, Shift_in; //EX control signals
 input [1:0] RegDst_in;  //EX control signals
@@ -40,7 +40,7 @@ input stall;
 
 input small_big_32_MUX_in;                                                            //EX competition signals
 input readSAD_in, small_big_16_MUX_in;                                                   //Mem competition signals
-input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in;   //WB competition signals
+input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in, allow_find_in;   //WB competition signals
 
 
 output reg ALUSrc_out, Shift_out; //EX control signals
@@ -56,7 +56,7 @@ output reg [1:0] LoadMux_out; //WB control signals
 
 output reg small_big_32_MUX_out;                                                            //EX competition signals
 output reg readSAD_out, small_big_16_MUX_out;                                                   //Mem competition signals
-output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out;   //WB competition signals
+output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out, allow_find_out;   //WB competition signals
 
 
 always@(*) begin 
@@ -79,6 +79,7 @@ always@(*) begin
             small_big_find_out    <= 0;
             read_min_out          <= 0;
             write_min_out         <= 0;
+            allow_find_out <= 0;
             
         end else begin 
             ALUSrc_out      <= ALUSrc_in;
@@ -99,6 +100,8 @@ always@(*) begin
             small_big_find_out    <= small_big_find_in;
             read_min_out          <= read_min_in;
             write_min_out         <= write_min_in;
+            allow_find_out <= allow_find_in;
+
 
         end 
     end

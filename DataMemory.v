@@ -4200,33 +4200,7 @@ memory[4115] <= 32'h63;
             address_OUT_5 <= memory[address_5[15:2]]; //column 2 (2)
             address_OUT_6 <= memory[address_6[15:2]]; //column 3 (2)
             address_OUT_7 <= memory[address_7[15:2]]; //column 4 (2)
-           /*
-            address_OUT_8 <= memory[address_8[15:2]]; //column 1 (3)
-            address_OUT_9 <= memory[address_9[15:2]]; //column 2 (3)
-            address_OUT_10 <= memory[address_10[15:2]]; //column 3 (3)
-            address_OUT_11 <= memory[address_11[15:2]]; //column 4 (3)
-            address_OUT_12 <= memory[address_12[15:2]]; //column 1 (4)
-            address_OUT_13 <= memory[address_13[15:2]]; //column 2 (4)
-            address_OUT_14 <= memory[address_14[15:2]]; //column 3 (4)
-            address_OUT_15 <= memory[address_15[15:2]]; //column 4 (4)
-      
-            address_OUT_16 <= memory[address_16[15:2]]; //column 5 (1)
-            address_OUT_17 <= memory[address_17[15:2]]; //column 6 (1)
-            address_OUT_18 <= memory[address_18[15:2]]; //column 7 (1)
-            address_OUT_19 <= memory[address_19[15:2]]; //column 8 (1)
-            address_OUT_20 <= memory[address_20[15:2]]; //column 5 (2)
-            address_OUT_21 <= memory[address_21[15:2]]; //column 6 (2)
-            address_OUT_22 <= memory[address_22[15:2]]; //column 7 (2)
-            address_OUT_23 <= memory[address_23[15:2]]; //column 8 (2)
-            address_OUT_24 <= memory[address_24[15:2]]; //column 5 (3)
-            address_OUT_25 <= memory[address_25[15:2]]; //column 6 (3)
-            address_OUT_26 <= memory[address_26[15:2]]; //column 7 (3)
-            address_OUT_27 <= memory[address_27[15:2]]; //column 8 (3)
-            address_OUT_28 <= memory[address_28[15:2]]; //column 5 (4)
-            address_OUT_29 <= memory[address_29[15:2]]; //column 6 (4)
-            address_OUT_30 <= memory[address_30[15:2]]; //column 7 (4)
-            address_OUT_31 <= memory[address_31[15:2]]; //column 8 (4)*/
-            
+     
             /*
             address_OUT_0  <= memory[address_0]; //column 1 (1)
             address_OUT_4  <= memory[address_4]; //column 1 (2)

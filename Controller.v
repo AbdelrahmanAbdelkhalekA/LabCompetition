@@ -22,7 +22,7 @@
 
 module Controller(Instruction, LessThanZero, LessThanOne, Equal, ALUSrc, RegDst, ALUOp, MemRead, MemWrite, StoreMux, RegWrite, 
                 MemToReg, LoadMux, PCSource, Jump, Shift, clk, Stall, small_big_32_MUX, small_big_16_MUX, readSAD, small_big_regFile, 
-                SAD_RegFile_write, small_big_find, read_min, write_min);
+                SAD_RegFile_write, small_big_find, read_min, write_min, allow_find);
 
     input [31:0] Instruction;
     input LessThanZero;
@@ -43,7 +43,7 @@ module Controller(Instruction, LessThanZero, LessThanOne, Equal, ALUSrc, RegDst,
     
     output reg small_big_32_MUX;                                                            //EX competition signals
     output reg readSAD, small_big_16_MUX;                                                   //Mem competition signals
-    output reg small_big_regFile, SAD_RegFile_write, small_big_find, read_min, write_min;   //WB competition signals
+    output reg small_big_regFile, SAD_RegFile_write, small_big_find, read_min, write_min, allow_find;   //WB competition signals
 
    always @(*) begin
        ALUSrc <= 0;
@@ -58,6 +58,15 @@ module Controller(Instruction, LessThanZero, LessThanOne, Equal, ALUSrc, RegDst,
        PCSource <= 0; 
        Jump <= 0; 
        Shift <= 0;
+       small_big_32_MUX <= 0;
+       readSAD <= 0;
+       small_big_16_MUX <= 0;
+       small_big_regFile <= 0;
+       SAD_RegFile_write <= 0; 
+       small_big_find <= 0;
+       read_min <= 0;
+       write_min <= 0;
+       allow_find <= 0;
     
     //if(~Stall) begin //if stall == 1, every signal is set to 0. Otherwise, we decode Instruction
          case (Instruction[31:26])
@@ -247,14 +256,17 @@ module Controller(Instruction, LessThanZero, LessThanOne, Equal, ALUSrc, RegDst,
             6'b111101: begin
                 small_big_16_MUX  <= 0;
                 small_big_find    <= 0;
+                allow_find        <= 1;
             end
-            //FinMin_Small
-            6'b111101: begin
+            //FindMin_Small
+            6'b111100: begin
                 small_big_16_MUX  <= 1;
-                small_big_find    <= 1;                
+                small_big_find    <= 1;     
+                allow_find        <= 1;
+           
             end
             //Read_Min
-            6'b111101: begin
+            6'b111001: begin
                 read_min          <= 1;
                 write_min         <= 1;
             end

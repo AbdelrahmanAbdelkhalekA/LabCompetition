@@ -27,7 +27,7 @@ module ID_EX(clk, rst, LoadMux_in, LoadMux_out, MemToReg_in, MemToReg_out, RegWr
             PCplus4_in, PCplus4_out, ImmediateEx_in, ImmediateEx_out, Shift_in, Shift_out, RsAddress_in, RsAddress_out,small_big_32_MUX_in, 
             readSAD_in, small_big_16_MUX_in, small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in, 
             small_big_32_MUX_out, readSAD_out, small_big_16_MUX_out, small_big_regFile_out, SAD_RegFile_write_out, 
-            small_big_find_out, read_min_out, write_min_out);
+            small_big_find_out, read_min_out, write_min_out, allow_find_in, allow_find_out);
 
 input [1:0]LoadMux_in, MemToReg_in;         //WB control signals
 input RegWrite_in;                          //WB control signals
@@ -42,7 +42,7 @@ input clk, rst;
 
 input small_big_32_MUX_in;                                                            //EX competition signals
 input readSAD_in, small_big_16_MUX_in;                                                   //Mem competition signals
-input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in;   //WB competition signals
+input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in, allow_find_in;   //WB competition signals
 
 output reg [1:0]LoadMux_out, MemToReg_out;         //WB control signals
 output reg RegWrite_out;                          //WB control signals
@@ -56,7 +56,7 @@ output reg [4:0] RsAddress_out, RtAddress_out, RdAddress_out;
 
 output reg small_big_32_MUX_out;                                                            //EX competition signals
 output reg readSAD_out, small_big_16_MUX_out;                                                   //Mem competition signals
-output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out;   //WB competition signals
+output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out, allow_find_out;   //WB competition signals
 
 
 
@@ -86,7 +86,9 @@ always@(posedge clk or posedge rst) begin
             SAD_RegFile_write_out <= 0;
             small_big_find_out    <= 0;
             read_min_out          <= 0;
-            write_min_out         <= 0;       
+            write_min_out         <= 0;
+                        allow_find_out <= 0;
+       
 
 	end else begin
            LoadMux_out     <= LoadMux_in;
@@ -114,6 +116,8 @@ always@(posedge clk or posedge rst) begin
             small_big_find_out    <= small_big_find_in;
             read_min_out          <= read_min_in;
             write_min_out         <= write_min_in;
+            allow_find_out <= allow_find_in;
+
 
 
     end    

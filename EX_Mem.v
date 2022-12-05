@@ -46,7 +46,7 @@ module EX_Mem(clk, rst, LoadMux_in, LoadMux_out, MemToReg_in, MemToReg_out, RegW
             RegFile6_Wire_0_out, RegFile6_Wire_1_out, RegFile6_Wire_2_out, RegFile6_Wire_3_out, RegFile6_Wire_4_out, RegFile6_Wire_5_out, RegFile6_Wire_6_out, RegFile6_Wire_7_out, RegFile6_Wire_8_out, RegFile6_Wire_9_out, RegFile6_Wire_10_out, RegFile6_Wire_11_out, RegFile6_Wire_12_out, RegFile6_Wire_13_out, RegFile6_Wire_14_out, RegFile6_Wire_15_out,
             RegFile7_Wire_0_out, RegFile7_Wire_1_out, RegFile7_Wire_2_out, RegFile7_Wire_3_out, RegFile7_Wire_4_out, RegFile7_Wire_5_out, RegFile7_Wire_6_out, RegFile7_Wire_7_out, RegFile7_Wire_8_out, RegFile7_Wire_9_out, RegFile7_Wire_10_out, RegFile7_Wire_11_out, RegFile7_Wire_12_out, RegFile7_Wire_13_out, RegFile7_Wire_14_out, RegFile7_Wire_15_out,
             RegFile8_Wire_0_out, RegFile8_Wire_1_out, RegFile8_Wire_2_out, RegFile8_Wire_3_out, RegFile8_Wire_4_out, RegFile8_Wire_5_out, RegFile8_Wire_6_out, RegFile8_Wire_7_out, RegFile8_Wire_8_out, RegFile8_Wire_9_out, RegFile8_Wire_10_out, RegFile8_Wire_11_out, RegFile8_Wire_12_out, RegFile8_Wire_13_out, RegFile8_Wire_14_out, RegFile8_Wire_15_out,
-            Rs_in, Rs_out);
+            Rs_in, Rs_out, allow_find_in, allow_find_out);
     
 input [1:0]LoadMux_in, MemToReg_in;         //WB control signals
 input RegWrite_in;                          //WB control signals
@@ -58,7 +58,7 @@ input clk, rst;
 
 input [31:0] Mux_Address_Wire_0_in, Mux_Address_Wire_1_in, Mux_Address_Wire_2_in, Mux_Address_Wire_3_in, Mux_Address_Wire_4_in, Mux_Address_Wire_5_in, Mux_Address_Wire_6_in, Mux_Address_Wire_7_in, Mux_Address_Wire_8_in, Mux_Address_Wire_9_in, Mux_Address_Wire_10_in, Mux_Address_Wire_11_in, Mux_Address_Wire_12_in, Mux_Address_Wire_13_in, Mux_Address_Wire_14_in, Mux_Address_Wire_15_in, Mux_Address_Wire_16_in, Mux_Address_Wire_17_in, Mux_Address_Wire_18_in, Mux_Address_Wire_19_in, Mux_Address_Wire_20_in, Mux_Address_Wire_21_in, Mux_Address_Wire_22_in, Mux_Address_Wire_23_in, Mux_Address_Wire_24_in, Mux_Address_Wire_25_in, Mux_Address_Wire_26_in, Mux_Address_Wire_27_in, Mux_Address_Wire_28_in, Mux_Address_Wire_29_in, Mux_Address_Wire_30_in, Mux_Address_Wire_31_in;
 input readSAD_in, small_big_16_MUX_in;                                                   //Mem competition signals
-input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in;   //WB competition signals
+input small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, read_min_in, write_min_in, allow_find_in;   //WB competition signals
 
 input [31:0] Window_Wire_0_in, Window_Wire_1_in, Window_Wire_2_in, Window_Wire_3_in, Window_Wire_4_in, Window_Wire_5_in, Window_Wire_6_in, Window_Wire_7_in, Window_Wire_8_in, Window_Wire_9_in, Window_Wire_10_in, Window_Wire_11_in, Window_Wire_12_in, Window_Wire_13_in, Window_Wire_14_in, Window_Wire_15_in;
 input [31:0] RegFile0_Wire_0_in, RegFile0_Wire_1_in, RegFile0_Wire_2_in, RegFile0_Wire_3_in, RegFile0_Wire_4_in, RegFile0_Wire_5_in, RegFile0_Wire_6_in, RegFile0_Wire_7_in, RegFile0_Wire_8_in, RegFile0_Wire_9_in, RegFile0_Wire_10_in, RegFile0_Wire_11_in, RegFile0_Wire_12_in, RegFile0_Wire_13_in, RegFile0_Wire_14_in, RegFile0_Wire_15_in; 
@@ -80,7 +80,7 @@ output reg [4:0] RdAddress_out;
 
 output reg [31:0] Mux_Address_Wire_0_out, Mux_Address_Wire_1_out, Mux_Address_Wire_2_out, Mux_Address_Wire_3_out, Mux_Address_Wire_4_out, Mux_Address_Wire_5_out, Mux_Address_Wire_6_out, Mux_Address_Wire_7_out, Mux_Address_Wire_8_out, Mux_Address_Wire_9_out, Mux_Address_Wire_10_out, Mux_Address_Wire_11_out, Mux_Address_Wire_12_out, Mux_Address_Wire_13_out, Mux_Address_Wire_14_out, Mux_Address_Wire_15_out, Mux_Address_Wire_16_out, Mux_Address_Wire_17_out, Mux_Address_Wire_18_out, Mux_Address_Wire_19_out, Mux_Address_Wire_20_out, Mux_Address_Wire_21_out, Mux_Address_Wire_22_out, Mux_Address_Wire_23_out, Mux_Address_Wire_24_out, Mux_Address_Wire_25_out, Mux_Address_Wire_26_out, Mux_Address_Wire_27_out, Mux_Address_Wire_28_out, Mux_Address_Wire_29_out, Mux_Address_Wire_30_out, Mux_Address_Wire_31_out;
 output reg readSAD_out, small_big_16_MUX_out;                                                   //Mem competition signals
-output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out;   //WB competition signals
+output reg small_big_regFile_out, SAD_RegFile_write_out, small_big_find_out, read_min_out, write_min_out, allow_find_out;   //WB competition signals
 
 output reg [31:0] Window_Wire_0_out, Window_Wire_1_out, Window_Wire_2_out, Window_Wire_3_out, Window_Wire_4_out, Window_Wire_5_out, Window_Wire_6_out, Window_Wire_7_out, Window_Wire_8_out, Window_Wire_9_out, Window_Wire_10_out, Window_Wire_11_out, Window_Wire_12_out, Window_Wire_13_out, Window_Wire_14_out, Window_Wire_15_out;
 output reg [31:0] RegFile0_Wire_0_out, RegFile0_Wire_1_out, RegFile0_Wire_2_out, RegFile0_Wire_3_out, RegFile0_Wire_4_out, RegFile0_Wire_5_out, RegFile0_Wire_6_out, RegFile0_Wire_7_out, RegFile0_Wire_8_out, RegFile0_Wire_9_out, RegFile0_Wire_10_out, RegFile0_Wire_11_out, RegFile0_Wire_12_out, RegFile0_Wire_13_out, RegFile0_Wire_14_out, RegFile0_Wire_15_out; 
@@ -155,6 +155,8 @@ always@(posedge clk or posedge rst) begin
         RegFile7_Wire_0_out<= 0; RegFile7_Wire_1_out<= 0; RegFile7_Wire_2_out<= 0; RegFile7_Wire_3_out<= 0; RegFile7_Wire_4_out<= 0; RegFile7_Wire_5_out<= 0; RegFile7_Wire_6_out<= 0; RegFile7_Wire_7_out<= 0; RegFile7_Wire_8_out<= 0; RegFile7_Wire_9_out<= 0; RegFile7_Wire_10_out<= 0; RegFile7_Wire_11_out<= 0; RegFile7_Wire_12_out<= 0; RegFile7_Wire_13_out<= 0; RegFile7_Wire_14_out<= 0; RegFile7_Wire_15_out<= 0;
         RegFile8_Wire_0_out<= 0; RegFile8_Wire_1_out<= 0; RegFile8_Wire_2_out<= 0; RegFile8_Wire_3_out<= 0; RegFile8_Wire_4_out<= 0; RegFile8_Wire_5_out<= 0; RegFile8_Wire_6_out<= 0; RegFile8_Wire_7_out<= 0; RegFile8_Wire_8_out<= 0; RegFile8_Wire_9_out<= 0; RegFile8_Wire_10_out<= 0; RegFile8_Wire_11_out<= 0; RegFile8_Wire_12_out<= 0; RegFile8_Wire_13_out<= 0; RegFile8_Wire_14_out<= 0; RegFile8_Wire_15_out<= 0;
         Rs_out <= 0;
+                    allow_find_out <= 0;
+
 	end else begin
        LoadMux_out     <= LoadMux_in;
 	   MemToReg_out    <= MemToReg_in;
@@ -366,6 +368,8 @@ always@(posedge clk or posedge rst) begin
         Window_Wire_14_out <= Window_Wire_14_in;
         Window_Wire_15_out <= Window_Wire_15_in;
         Rs_out <= Rs_in;
+        allow_find_out <= allow_find_in;
+
 
    end
 end

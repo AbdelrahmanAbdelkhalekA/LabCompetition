@@ -34,7 +34,7 @@ integer i;
 
 initial begin
     //set all the registers to zero
-    for(i = 0; i < 15; i = i + 1) begin
+    for(i = 0; i <= 15; i = i + 1) begin
        registerFrame[i] <= 32'b0;
     end
 end

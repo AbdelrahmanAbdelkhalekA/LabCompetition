@@ -43,7 +43,7 @@ wire [1:0] LoadMux_ID; //WB control signals
 
 wire small_big_32_MUX_ID;                                                            //EX competition signals
 wire readSAD_ID, small_big_16_MUX_ID;                                                   //Mem competition signals
-wire small_big_regFile_ID, SAD_RegFile_write_ID, small_big_find_ID, read_min_ID, write_min_ID;   //WB competition signals
+wire small_big_regFile_ID, SAD_RegFile_write_ID, small_big_find_ID, read_min_ID, write_min_ID, allow_find_ID;   //WB competition signals
 
 wire ALUSrc_extra, Shift_extra; //EX control signals
 wire [1:0] RegDst_extra;  //EX control signals
@@ -57,7 +57,7 @@ wire [1:0] LoadMux_extra; //WB control signals
 
 wire small_big_32_MUX_extra;                                                            //EX competition signals
 wire readSAD_extra, small_big_16_MUX_extra;                                                   //Mem competition signals
-wire small_big_regFile_extra, SAD_RegFile_write_extra, small_big_find_extra, read_min_extra, write_min_extra;   //WB competition signals
+wire small_big_regFile_extra, SAD_RegFile_write_extra, small_big_find_extra, read_min_extra, write_min_extra, allow_find_extra;   //WB competition signals
 
 wire PCSource_ID, Flush, Stall, PC_Write;      //Branch control signal
 wire [1:0] Jump_ID;  
@@ -83,7 +83,7 @@ wire [1:0] LoadMux_EX; //WB control signals
 
 wire small_big_32_MUX_EX;                                                            //EX competition signals
 wire readSAD_EX, small_big_16_MUX_EX;                                                   //Mem competition signals
-wire small_big_regFile_EX, SAD_RegFile_write_EX, small_big_find_EX, read_min_EX, write_min_EX;   //WB competition signals
+wire small_big_regFile_EX, SAD_RegFile_write_EX, small_big_find_EX, read_min_EX, write_min_EX, allow_find_EX;   //WB competition signals
 
 wire [31:0] Window_Wire_0_EX, Window_Wire_1_EX, Window_Wire_2_EX, Window_Wire_3_EX, Window_Wire_4_EX, Window_Wire_5_EX, Window_Wire_6_EX, Window_Wire_7_EX, Window_Wire_8_EX, Window_Wire_9_EX, Window_Wire_10_EX, Window_Wire_11_EX, Window_Wire_12_EX, Window_Wire_13_EX, Window_Wire_14_EX, Window_Wire_15_EX;
 wire [31:0] RegFile0_Wire_0_EX, RegFile0_Wire_1_EX, RegFile0_Wire_2_EX, RegFile0_Wire_3_EX, RegFile0_Wire_4_EX, RegFile0_Wire_5_EX, RegFile0_Wire_6_EX, RegFile0_Wire_7_EX, RegFile0_Wire_8_EX, RegFile0_Wire_9_EX, RegFile0_Wire_10_EX, RegFile0_Wire_11_EX, RegFile0_Wire_12_EX, RegFile0_Wire_13_EX, RegFile0_Wire_14_EX, RegFile0_Wire_15_EX; 
@@ -109,7 +109,7 @@ wire [1:0] MemToReg_Mem;//WB control signals
 wire [1:0] LoadMux_Mem; //WB control signals    
 
 wire readSAD_Mem, small_big_16_MUX_Mem;                                                   //Mem competition signals
-wire small_big_regFile_Mem, SAD_RegFile_write_Mem, small_big_find_Mem, read_min_Mem, write_min_Mem;   //WB competition signals
+wire small_big_regFile_Mem, SAD_RegFile_write_Mem, small_big_find_Mem, read_min_Mem, write_min_Mem, allow_find_Mem;   //WB competition signals
 
 wire [31:0] Window_Wire_0_Mem, Window_Wire_1_Mem, Window_Wire_2_Mem, Window_Wire_3_Mem, Window_Wire_4_Mem, Window_Wire_5_Mem, Window_Wire_6_Mem, Window_Wire_7_Mem, Window_Wire_8_Mem, Window_Wire_9_Mem, Window_Wire_10_Mem, Window_Wire_11_Mem, Window_Wire_12_Mem, Window_Wire_13_Mem, Window_Wire_14_Mem, Window_Wire_15_Mem;
 wire [31:0] RegFile0_Wire_0_Mem, RegFile0_Wire_1_Mem, RegFile0_Wire_2_Mem, RegFile0_Wire_3_Mem, RegFile0_Wire_4_Mem, RegFile0_Wire_5_Mem, RegFile0_Wire_6_Mem, RegFile0_Wire_7_Mem, RegFile0_Wire_8_Mem, RegFile0_Wire_9_Mem, RegFile0_Wire_10_Mem, RegFile0_Wire_11_Mem, RegFile0_Wire_12_Mem, RegFile0_Wire_13_Mem, RegFile0_Wire_14_Mem, RegFile0_Wire_15_Mem; 
@@ -132,7 +132,7 @@ wire [4:0]  RdAddress_WB;
 wire RegWrite_WB;      //WB control signals
 wire [1:0] MemToReg_WB;//WB control signals 
 wire [1:0] LoadMux_WB; //WB control signals   
-wire small_big_regFile_WB, SAD_RegFile_write_WB, small_big_find_WB, read_min_WB, write_min_WB;   //WB competition signals
+wire small_big_regFile_WB, SAD_RegFile_write_WB, small_big_find_WB, read_min_WB, write_min_WB, allow_find_WB;   //WB competition signals
 wire [31:0] sadResult_wire_1_WB, sadResult_wire_2_WB, sadResult_wire_3_WB, sadResult_wire_4_WB, sadResult_wire_5_WB, sadResult_wire_6_WB, sadResult_wire_7_WB, sadResult_wire_8_WB;
 output [31:0] matchAddress_WB, Minimum_WB;
 
@@ -180,10 +180,10 @@ set_on_less_than_unit ID6(ExtraRs_ID,0,LessThanZeroWire_ID);
 set_on_less_than_unit ID7(ExtraRs_ID,1,LessThanOneWire_ID);
 /*module Controller(Instruction, LessThanZero, LessThanOne, Equal, ALUSrc, RegDst, ALUOp, MemRead, MemWrite, StoreMux, RegWrite, 
                 MemToReg, LoadMux, PCSource, Jump, Shift, clk, Stall, small_big_32_MUX, small_big_16_MUX, readSAD, small_big_regFile, 
-                SAD_RegFile_write, small_big_find, read_min, write_min);*/
+                SAD_RegFile_write, small_big_find, read_min, write_min, allow_find);*/
 Controller ID8(Instruction_ID, LessThanZeroWire_ID, LessThanOneWire_ID, EqualWire_ID, ALUSrc_ID, RegDst_ID, ALUOp_ID, MemRead_ID, MemWrite_ID,
                 StoreMux_ID, RegWrite_ID, MemToReg_ID, LoadMux_ID, PCSource_ID, Jump_ID, Shift_ID,clk, Stall, small_big_32_MUX_ID, small_big_16_MUX_ID,
-                readSAD_ID, small_big_regFile_ID, SAD_RegFile_write_ID, small_big_find_ID, read_min_ID, write_min_ID);
+                readSAD_ID, small_big_regFile_ID, SAD_RegFile_write_ID, small_big_find_ID, read_min_ID, write_min_ID, allow_find_ID);
 /*StallMux( ALUSrc_in, Shift_in, RegDst_in, ALUOp_in, MemRead_in, MemWrite_in,StoreMux_in, RegWrite_in, MemToReg_in, LoadMux_in,
               ALUSrc_out, Shift_out, RegDst_out, ALUOp_out, MemRead_out, MemWrite_out,StoreMux_out, RegWrite_out, MemToReg_out, LoadMux_out, stall, 
               small_big_32_MUX_in, readSAD_in, small_big_16_MUX_in, small_big_regFile_in, SAD_RegFile_write_in, small_big_find_in, 
@@ -193,7 +193,7 @@ StallMux StallThis( ALUSrc_ID, Shift_ID, RegDst_ID, ALUOp_ID, MemRead_ID, MemWri
               ALUSrc_extra, Shift_extra, RegDst_extra, ALUOp_extra, MemRead_extra, MemWrite_extra,StoreMux_extra, RegWrite_extra, MemToReg_extra, LoadMux_extra, Stall,
               small_big_32_MUX_ID, readSAD_ID, small_big_16_MUX_ID, small_big_regFile_ID, SAD_RegFile_write_ID, small_big_find_ID, 
               read_min_ID, write_min_ID, small_big_32_MUX_extra, readSAD_extra, small_big_16_MUX_extra, small_big_regFile_extra, SAD_RegFile_write_extra, 
-              small_big_find_extra, read_min_extra, write_min_extra);
+              small_big_find_extra, read_min_extra, write_min_extra, allow_find_ID, allow_find_extra);
 /*ID_EX(clk, rst, LoadMux_in, LoadMux_out, MemToReg_in, MemToReg_out, RegWrite_in, RegWrite_out, MemWrite_in, MemWrite_out, 
             MemRead_in, MemRead_out, StoreMux_in,StoreMux_out, ALUSrc_in, ALUSrc_out, RgDst_in, RgDst_out, ALUOp_in, ALUOp_out, 
             RsContent_in, RsContent_out, RtContent_in, RtContent_out, RtAddress_in, RtAddress_out, RdAddress_in, RdAddress_out, 
@@ -207,7 +207,7 @@ ID_EX ID9(clk, rst, LoadMux_extra, LoadMux_EX, MemToReg_extra, MemToReg_EX, RegW
             PC_plus_4_ID, PC_plus_4_EX, ImmediateExtended_ID, ImmediateExtended_EX, Shift_extra, Shift_EX, Instruction_ID[25:21], RsAddress_EX,
             small_big_32_MUX_extra, readSAD_extra, small_big_16_MUX_extra, small_big_regFile_extra, SAD_RegFile_write_extra, small_big_find_extra, read_min_extra, write_min_extra, 
             small_big_32_MUX_EX, readSAD_EX, small_big_16_MUX_EX, small_big_regFile_EX, SAD_RegFile_write_EX, 
-            small_big_find_EX, read_min_EX, write_min_EX);
+            small_big_find_EX, read_min_EX, write_min_EX, allow_find_extra, allow_find_EX);
             
 /////////////////////////////////////EX stage////////////////////////////////
 //module Forwarding_Unit(RegWrite_MEM, RsAddress_EX, RdAddress_MEM, RtAddress_EX, RegWrite_WB, RdAddress_WB, muxVal_1, muxVal_2, RsAddress_ID, RtAddress_ID, selMux_RsID, selMux_RtID);
@@ -353,7 +353,7 @@ EX_Mem EX4(clk, rst, LoadMux_EX, LoadMux_Mem, MemToReg_EX, MemToReg_Mem, RegWrit
             RegFile6_Wire_0_Mem, RegFile6_Wire_1_Mem, RegFile6_Wire_2_Mem, RegFile6_Wire_3_Mem, RegFile6_Wire_4_Mem, RegFile6_Wire_5_Mem, RegFile6_Wire_6_Mem, RegFile6_Wire_7_Mem, RegFile6_Wire_8_Mem, RegFile6_Wire_9_Mem, RegFile6_Wire_10_Mem, RegFile6_Wire_11_Mem, RegFile6_Wire_12_Mem, RegFile6_Wire_13_Mem, RegFile6_Wire_14_Mem, RegFile6_Wire_15_Mem,
             RegFile7_Wire_0_Mem, RegFile7_Wire_1_Mem, RegFile7_Wire_2_Mem, RegFile7_Wire_3_Mem, RegFile7_Wire_4_Mem, RegFile7_Wire_5_Mem, RegFile7_Wire_6_Mem, RegFile7_Wire_7_Mem, RegFile7_Wire_8_Mem, RegFile7_Wire_9_Mem, RegFile7_Wire_10_Mem, RegFile7_Wire_11_Mem, RegFile7_Wire_12_Mem, RegFile7_Wire_13_Mem, RegFile7_Wire_14_Mem, RegFile7_Wire_15_Mem,
             RegFile8_Wire_0_Mem, RegFile8_Wire_1_Mem, RegFile8_Wire_2_Mem, RegFile8_Wire_3_Mem, RegFile8_Wire_4_Mem, RegFile8_Wire_5_Mem, RegFile8_Wire_6_Mem, RegFile8_Wire_7_Mem, RegFile8_Wire_8_Mem, RegFile8_Wire_9_Mem, RegFile8_Wire_10_Mem, RegFile8_Wire_11_Mem, RegFile8_Wire_12_Mem, RegFile8_Wire_13_Mem, RegFile8_Wire_14_Mem, RegFile8_Wire_15_Mem,
-            Wire1_EX, Rs_Mem);
+            Wire1_EX, Rs_Mem, allow_find_EX, allow_find_Mem);
             
 /////////////////////////////////////Mem stage////////////////////////////////
 //Mux32Bit3To1StoreMux(out, inA, sel)
@@ -467,12 +467,13 @@ Mem_WB Mem2(clk, rst, LoadMux_Mem, LoadMux_WB, MemToReg_Mem, MemToReg_WB, RegWri
             small_big_regFile_Mem, SAD_RegFile_write_Mem, small_big_find_Mem, read_min_Mem, write_min_Mem, small_big_regFile_WB, SAD_RegFile_write_WB, small_big_find_WB, read_min_WB, write_min_WB,
             sadResult_Wire_1_Mem, sadResult_Wire_2_Mem, sadResult_Wire_3_Mem, sadResult_Wire_4_Mem, sadResult_Wire_5_Mem, sadResult_Wire_6_Mem, sadResult_Wire_7_Mem, sadResult_Wire_8_Mem,
             sadResult_wire_1_WB, sadResult_wire_2_WB, sadResult_wire_3_WB, sadResult_wire_4_WB, sadResult_wire_5_WB, sadResult_wire_6_WB, sadResult_wire_7_WB, sadResult_wire_8_WB,
-            Rs_Mem, Rs_WB);
+            Rs_Mem, Rs_WB, allow_find_Mem, allow_find_WB);
 
 /////////////////////////////////////WB stage////////////////////////////////
-//module FindMininum(megaALUResult1, megaALUResult2, megaALUResult3, megaALUResult4, megaALUResult5, megaALUResult6, megaALUResult7,megaALUResult8, newAddress, minimuim, small_big, currentAddress, read);
+/*module FindMininum(megaALUResult1, megaALUResult2, megaALUResult3, megaALUResult4, megaALUResult5, megaALUResult6, megaALUResult7,
+                        megaALUResult8, newAddress, minimuim, small_big, currentAddress, read);*/
 FindMininum Competition5(sadResult_wire_1_WB, sadResult_wire_2_WB, sadResult_wire_3_WB, sadResult_wire_4_WB, sadResult_wire_5_WB, sadResult_wire_6_WB, sadResult_wire_7_WB, sadResult_wire_8_WB,
-                       matchAddress_WB, Minimum_WB, small_big_find_Mem, Rs_WB, read_min_WB);
+                       matchAddress_WB, Minimum_WB, small_big_find_WB, Rs_WB, read_min_WB, allow_find_WB);
 //Mux32Bit3To1StoreMux(out, inA, sel)
 Mux32Bit3To1StoreMux WB0(GoToMemToReg_WB, MemoryReadContent_WB, LoadMux_WB);
 //Mux32Bit3To1Normal(out, inA, inB, inC, sel);
