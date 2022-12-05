@@ -151,7 +151,7 @@ spiral:
 	addi  $v1,   $zero,   1000   #v1 = 1000 (current minimum sum of absolute values)
 	add   $t0,  $zero,  $zero    # t0 = 0 (i for the 1st for loop)
 	addi  $t1,   $zero,   61	  #limit for the loops
-	addi  $t2,   $zero,   60
+	addi  $t2,   $zero,   63
 
 
 firstforLoop:                                   				     
@@ -161,16 +161,16 @@ firstforLoop:
      		beq $t3, $t2, exit_2nd_loop   	# if t3 == 60, break loop 2
      		mul $a0, $t0, $s1			# a0 = i * framecolumns
      		add $a0, $a0, $t3 			# a0 = i * framecolumns + j = current address 
-		nop     		#BigSAD a0
-		nop			#SmallSAD a0
-		nop			#FindMinBig a0
-		nop			#FindMinSmall a0
-     		addi $t3, $t3, 12				# t3++ = j++ ---->add 12 later
+		nop     		#BigSAD 		$a0
+		nop			#SmallSAD   	$a0
+		nop			#FindMinBig 	$a0
+		nop			#FindMinSmall 	$a0
+     		addi $t3, $t3, 9				# t3++ = j++ ---->add 12 later
      		j secondforLoop			
 	exit_2nd_loop:
-		nop			#BigSAD a0
+		nop			#BigSAD 		$a0
 		addi  $t0,   $t0,   1	  			# t0++ = i++
-		nop			#FindMinBig a0
+		nop			#FindMinBig 	$a0
 		j firstforLoop
 
 exit_1st_loop:
