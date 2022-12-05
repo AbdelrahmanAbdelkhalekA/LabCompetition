@@ -25,9 +25,10 @@
 module TopLevel_tb();
 
 reg rst, clk;
-wire [31:0] CoordinateX_ID, CoordinateY_ID, valueDisplay, PCDisplay;
+wire [31:0] CoordinateX_ID, CoordinateY_ID, valueDisplay, PCDisplay, matchAddress_WB, Minimum_WB;
   
-TopLevel Im_nervous(.clk(clk), .rst(rst), .CoordinateX_ID(CoordinateX_ID), .CoordinateY_ID(CoordinateY_ID), .valueDisplay(valueDisplay), .PCDisplay(PCDisplay));    
+TopLevel Im_nervous(.clk(clk), .rst(rst), .CoordinateX_ID(CoordinateX_ID), .CoordinateY_ID(CoordinateY_ID), .valueDisplay(valueDisplay), .PCDisplay(PCDisplay),
+            .matchAddress_WB(matchAddress_WB), .Minimum_WB(Minimum_WB));    
     
     always begin
 		clk <= 0;

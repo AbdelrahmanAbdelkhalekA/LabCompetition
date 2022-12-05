@@ -21,7 +21,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module TopLevel(clk, rst, CoordinateX_ID, CoordinateY_ID, valueDisplay, PCDisplay);
+module TopLevel(clk, rst, CoordinateX_ID, CoordinateY_ID, valueDisplay, PCDisplay, matchAddress_WB, Minimum_WB);
 input clk, rst;
 output [31:0] CoordinateX_ID, CoordinateY_ID, valueDisplay, PCDisplay;
 
@@ -134,7 +134,7 @@ wire [1:0] MemToReg_WB;//WB control signals
 wire [1:0] LoadMux_WB; //WB control signals   
 wire small_big_regFile_WB, SAD_RegFile_write_WB, small_big_find_WB, read_min_WB, write_min_WB;   //WB competition signals
 wire [31:0] sadResult_wire_1_WB, sadResult_wire_2_WB, sadResult_wire_3_WB, sadResult_wire_4_WB, sadResult_wire_5_WB, sadResult_wire_6_WB, sadResult_wire_7_WB, sadResult_wire_8_WB;
-wire [31:0] matchAddress_WB, Minimum_WB;
+output [31:0] matchAddress_WB, Minimum_WB;
 
 
 
@@ -229,12 +229,12 @@ Mux32Bit3To1RegDst EX3(NewRdAddress_EX, RtAddress_EX, RdAddress_EX, RegDst_EX, R
 /* Big_Address(current_address, address_0, address_1, address_2, address_3, address_4, address_5, address_6, 
                         address_7, address_8, address_9, address_10, address_11, address_12, address_13, address_14, address_15,  w_address_0, w_address_1, w_address_2, w_address_3, w_address_4, w_address_5, w_address_6, w_address_7, w_address_8, w_address_9, w_address_10, 
                     w_address_11, w_address_12, w_address_13, w_address_14, w_address_15);*/
-Big_Address Competition1(Rs_EX, Big_Address_Wire_16_EX, Big_Address_Wire_17_EX, Big_Address_Wire_18_EX, Big_Address_Wire_19_EX, Big_Address_Wire_20_EX, Big_Address_Wire_21_EX, Big_Address_Wire_22_EX, Big_Address_Wire_23_EX, Big_Address_Wire_24_EX, Big_Address_Wire_25_EX, Big_Address_Wire_26_EX, Big_Address_Wire_27_EX, Big_Address_Wire_28_EX, Big_Address_Wire_29_EX, Big_Address_Wire_30_EX, Big_Address_Wire_31_EX, Big_Address_Wire_0_EX, Big_Address_Wire_1_EX, Big_Address_Wire_2_EX, Big_Address_Wire_3_EX, Big_Address_Wire_4_EX, Big_Address_Wire_5_EX, Big_Address_Wire_6_EX, Big_Address_Wire_7_EX, Big_Address_Wire_8_EX, Big_Address_Wire_9_EX, Big_Address_Wire_10_EX, Big_Address_Wire_11_EX, Big_Address_Wire_12_EX, Big_Address_Wire_13_EX, Big_Address_Wire_14_EX, Big_Address_Wire_15_EX );
+Big_Address Competition1(Wire1_EX, Big_Address_Wire_16_EX, Big_Address_Wire_17_EX, Big_Address_Wire_18_EX, Big_Address_Wire_19_EX, Big_Address_Wire_20_EX, Big_Address_Wire_21_EX, Big_Address_Wire_22_EX, Big_Address_Wire_23_EX, Big_Address_Wire_24_EX, Big_Address_Wire_25_EX, Big_Address_Wire_26_EX, Big_Address_Wire_27_EX, Big_Address_Wire_28_EX, Big_Address_Wire_29_EX, Big_Address_Wire_30_EX, Big_Address_Wire_31_EX, Big_Address_Wire_0_EX, Big_Address_Wire_1_EX, Big_Address_Wire_2_EX, Big_Address_Wire_3_EX, Big_Address_Wire_4_EX, Big_Address_Wire_5_EX, Big_Address_Wire_6_EX, Big_Address_Wire_7_EX, Big_Address_Wire_8_EX, Big_Address_Wire_9_EX, Big_Address_Wire_10_EX, Big_Address_Wire_11_EX, Big_Address_Wire_12_EX, Big_Address_Wire_13_EX, Big_Address_Wire_14_EX, Big_Address_Wire_15_EX );
 /*module Small_Address(current_address, address_0, address_1, address_2, address_3, address_4, address_5, address_6, 
                     address_7, address_8, address_9, address_10, address_11, address_12, address_13, address_14, address_15, address_16, address_17, 
                     address_18, address_19, address_20, address_21, address_22, address_23, address_24, address_25, address_26, address_27, address_28, 
                     address_29, address_30, address_31);*/
-Small_Address Competition2(Rs_EX, Small_Address_Wire_0_EX, Small_Address_Wire_1_EX, Small_Address_Wire_2_EX, Small_Address_Wire_3_EX, Small_Address_Wire_4_EX, Small_Address_Wire_5_EX, Small_Address_Wire_6_EX, Small_Address_Wire_7_EX, Small_Address_Wire_8_EX, Small_Address_Wire_9_EX, Small_Address_Wire_10_EX, Small_Address_Wire_11_EX, Small_Address_Wire_12_EX, Small_Address_Wire_13_EX, Small_Address_Wire_14_EX, Small_Address_Wire_15_EX, Small_Address_Wire_16_EX, Small_Address_Wire_17_EX, Small_Address_Wire_18_EX, Small_Address_Wire_19_EX, Small_Address_Wire_20_EX, Small_Address_Wire_21_EX, Small_Address_Wire_22_EX, Small_Address_Wire_23_EX, Small_Address_Wire_24_EX, Small_Address_Wire_25_EX, Small_Address_Wire_26_EX, Small_Address_Wire_27_EX, Small_Address_Wire_28_EX, Small_Address_Wire_29_EX, Small_Address_Wire_30_EX, Small_Address_Wire_31_EX);
+Small_Address Competition2(Wire1_EX, Small_Address_Wire_0_EX, Small_Address_Wire_1_EX, Small_Address_Wire_2_EX, Small_Address_Wire_3_EX, Small_Address_Wire_4_EX, Small_Address_Wire_5_EX, Small_Address_Wire_6_EX, Small_Address_Wire_7_EX, Small_Address_Wire_8_EX, Small_Address_Wire_9_EX, Small_Address_Wire_10_EX, Small_Address_Wire_11_EX, Small_Address_Wire_12_EX, Small_Address_Wire_13_EX, Small_Address_Wire_14_EX, Small_Address_Wire_15_EX, Small_Address_Wire_16_EX, Small_Address_Wire_17_EX, Small_Address_Wire_18_EX, Small_Address_Wire_19_EX, Small_Address_Wire_20_EX, Small_Address_Wire_21_EX, Small_Address_Wire_22_EX, Small_Address_Wire_23_EX, Small_Address_Wire_24_EX, Small_Address_Wire_25_EX, Small_Address_Wire_26_EX, Small_Address_Wire_27_EX, Small_Address_Wire_28_EX, Small_Address_Wire_29_EX, Small_Address_Wire_30_EX, Small_Address_Wire_31_EX);
 /*module Mux64to32(inputf32IN0, inputf32IN1, inputf32IN2, inputf32IN3, inputf32IN4, inputf32IN5, inputf32IN6, inputf32IN7, inputf32IN8, inputf32IN9, inputf32IN10, inputf32IN11, inputf32IN12, inputf32IN13, inputf32IN14, inputf32IN15, inputf32IN16, inputf32IN17, inputf32IN18, inputf32IN19, inputf32IN20, inputf32IN21, inputf32IN22, inputf32IN23, inputf32IN24, inputf32IN25, inputf32IN26, inputf32IN27, inputf32IN28, inputf32IN29, inputf32IN30, inputf32IN31, inputs32IN0, inputs32IN1, inputs32IN2, inputs32IN3, inputs32IN4, inputs32IN5, inputs32IN6, inputs32IN7, inputs32IN8, inputs32IN9, inputs32IN10, inputs32IN11, inputs32IN12, inputs32IN13, inputs32IN14, inputs32IN15, inputs32IN16, inputs32IN17, inputs32IN18, inputs32IN19, inputs32IN20, inputs32IN21, inputs32IN22, inputs32IN23, inputs32IN24, inputs32IN25, inputs32IN26, inputs32IN27, inputs32IN28, inputs32IN29, inputs32IN30, inputs32IN31
 ,inputOUT32IN0, inputOUT32IN1, inputOUT32IN2, inputOUT32IN3, inputOUT32IN4, inputOUT32IN5, inputOUT32IN6, inputOUT32IN7, inputOUT32IN8, inputOUT32IN9, inputOUT32IN10, inputOUT32IN11, inputOUT32IN12, inputOUT32IN13, inputOUT32IN14, inputOUT32IN15, inputOUT32IN16, inputOUT32IN17, inputOUT32IN18, inputOUT32IN19, inputOUT32IN20, inputOUT32IN21, inputOUT32IN22, inputOUT32IN23, inputOUT32IN24, inputOUT32IN25, inputOUT32IN26, inputOUT32IN27, inputOUT32IN28, inputOUT32IN29, inputOUT32IN30, inputOUT32IN31, sel);
 */
@@ -353,7 +353,7 @@ EX_Mem EX4(clk, rst, LoadMux_EX, LoadMux_Mem, MemToReg_EX, MemToReg_Mem, RegWrit
             RegFile6_Wire_0_Mem, RegFile6_Wire_1_Mem, RegFile6_Wire_2_Mem, RegFile6_Wire_3_Mem, RegFile6_Wire_4_Mem, RegFile6_Wire_5_Mem, RegFile6_Wire_6_Mem, RegFile6_Wire_7_Mem, RegFile6_Wire_8_Mem, RegFile6_Wire_9_Mem, RegFile6_Wire_10_Mem, RegFile6_Wire_11_Mem, RegFile6_Wire_12_Mem, RegFile6_Wire_13_Mem, RegFile6_Wire_14_Mem, RegFile6_Wire_15_Mem,
             RegFile7_Wire_0_Mem, RegFile7_Wire_1_Mem, RegFile7_Wire_2_Mem, RegFile7_Wire_3_Mem, RegFile7_Wire_4_Mem, RegFile7_Wire_5_Mem, RegFile7_Wire_6_Mem, RegFile7_Wire_7_Mem, RegFile7_Wire_8_Mem, RegFile7_Wire_9_Mem, RegFile7_Wire_10_Mem, RegFile7_Wire_11_Mem, RegFile7_Wire_12_Mem, RegFile7_Wire_13_Mem, RegFile7_Wire_14_Mem, RegFile7_Wire_15_Mem,
             RegFile8_Wire_0_Mem, RegFile8_Wire_1_Mem, RegFile8_Wire_2_Mem, RegFile8_Wire_3_Mem, RegFile8_Wire_4_Mem, RegFile8_Wire_5_Mem, RegFile8_Wire_6_Mem, RegFile8_Wire_7_Mem, RegFile8_Wire_8_Mem, RegFile8_Wire_9_Mem, RegFile8_Wire_10_Mem, RegFile8_Wire_11_Mem, RegFile8_Wire_12_Mem, RegFile8_Wire_13_Mem, RegFile8_Wire_14_Mem, RegFile8_Wire_15_Mem,
-            Rs_EX, Rs_Mem);
+            Wire1_EX, Rs_Mem);
             
 /////////////////////////////////////Mem stage////////////////////////////////
 //Mux32Bit3To1StoreMux(out, inA, sel)
